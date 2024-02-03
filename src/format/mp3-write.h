@@ -76,6 +76,8 @@ int mpeg_out_process(void *ctx, phi_track *t)
 
 	if (t->chain_flags & PHI_FFIRST)
 		m->flags |= MP3WRITE_FLAST;
+	if (t->mpg_lametag)
+		m->flags |= MP3WRITE_FLAMEFRAME;
 
 	ffstr out;
 	if (t->data_in.len != 0) {
