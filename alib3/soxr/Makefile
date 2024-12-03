@@ -41,6 +41,8 @@ CFLAGS += \
 ifeq "$(CPU)" "arm"
 	# w/a for `cannot locate symbol "fetestexcept"`
 	CFLAGS += -DSOXR_NO_FETESTEXCEPT
+else ifeq "$(CPU)" "x86"
+	CFLAGS += -msse
 endif
 ifeq ($(OS),windows)
 	CFLAGS += -DSOXR_DLL -Dsoxr_EXPORTS -D_USE_MATH_DEFINES
@@ -67,11 +69,15 @@ SRC_SIMD32 := \
 
 SRC += $(SRC_SIMD32)
 
+SRC_SIMD64 := \
+	$(DIR)/src/cr64s.c \
+	$(DIR)/src/pffft64s.c \
+	$(DIR)/src/util64s.c
+
 ifeq "$(CPU)" "amd64"
-	SRC += \
-		$(DIR)/src/cr64s.c \
-		$(DIR)/src/pffft64s.c \
-		$(DIR)/src/util64s.c
+	SRC += $(SRC_SIMD64)
+else ifeq "$(CPU)" "x86"
+	SRC += $(SRC_SIMD64)
 endif
 
 OBJ := $(SRC:.c=.o)
