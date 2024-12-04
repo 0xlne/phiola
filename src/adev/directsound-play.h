@@ -81,11 +81,12 @@ static int dsnd_write(void *ctx, phi_track *t)
 		}
 	}
 
-	r = audio_out_write(a, t);
+	uint old_state = ~0U;
+	r = audio_out_write(a, t, &old_state);
 	return r;
 }
 
 static const phi_filter phi_directsound_play = {
 	dsnd_open, dsnd_close, dsnd_write,
-	"direct-sound-play"
+	"dsound-play"
 };

@@ -39,5 +39,5 @@ static int dsnd_in_read(void *ctx, phi_track *t)
 
 static const phi_filter phi_directsound_rec = {
 	dsnd_in_open, dsnd_in_close, dsnd_in_read,
-	"direct-sound-rec"
+	"dsound-rec"
 };
